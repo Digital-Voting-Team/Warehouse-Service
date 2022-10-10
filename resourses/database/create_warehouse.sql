@@ -48,7 +48,7 @@ create table DELIVERY
 
 create table INGREDIENT_WAREHOUSE
 (
-    ID              NUMBER      not null
+    ID              NUMBER generated as identity
         constraint "ingredient_warehouse_pk"
             primary key,
     INGREDIENT_ID   NUMBER      not null
