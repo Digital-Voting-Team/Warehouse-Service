@@ -33,7 +33,7 @@ create table WAREHOUSE
 
 create table DELIVERY
 (
-    ID             NUMBER not null
+    ID             NUMBER generated as identity
         constraint "delivery_pk"
             primary key,
     SOURCE_ID      NUMBER not null
