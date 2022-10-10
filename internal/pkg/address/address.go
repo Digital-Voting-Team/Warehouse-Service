@@ -1,10 +1,11 @@
 package address
 
 type Address struct {
-	Id         int64    `db:"ID"`
-	Street     [50]byte `db:"STREET"`
-	City       [50]byte `db:"CITY"`
-	District   [50]byte `db:"DISTRICT"`
-	Region     [50]byte `db:"REGION"`
-	PostalCode [10]byte `db:"POSTAL_CODE"`
+	Id         int64  `db:"ID"`
+	Building   int64  `db:"BUILDING"`
+	Street     string `db:"STREET"`
+	City       string `db:"CITY"`
+	District   string `db:"DISTRICT"`
+	Region     string `db:"REGION"`
+	PostalCode string `db:"POSTAL_CODE"`
 }
