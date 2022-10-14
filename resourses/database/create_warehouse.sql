@@ -24,7 +24,7 @@ create table WAREHOUSE
     ID         NUMBER generated as identity
         constraint "warehouse_pk"
             primary key,
-    CAFE_ID    NUMBER not null,
+    CAFE_ID    NUMBER,
     ADDRESS_ID NUMBER not null
         constraint "warehouse_address_null_fk"
             references ADDRESS,
@@ -36,7 +36,7 @@ create table DELIVERY
     ID             NUMBER generated as identity
         constraint "delivery_pk"
             primary key,
-    SOURCE_ID      NUMBER not null
+    SOURCE_ID      NUMBER
         constraint "delivery_warehouse_null_fk"
             references WAREHOUSE,
     DESTINATION_ID NUMBER not null
@@ -61,8 +61,24 @@ create table INGREDIENT_WAREHOUSE
     ORIGIN          VARCHAR(50) not null,
     PRICE           FLOAT       not null,
     EXPIRATION_DATE DATE        not null,
-    DELIVERY_DATE   DATE        not null
+    DELIVERY_DATE   DATE        not null,
+    DELIVERY_ID     NUMBER      not null
+        constraint "INGREDIENT_WAREHOUSE_DELIVERY_null_fk"
+            references DELIVERY
 );
 
-comment on column INGREDIENT_WAREHOUSE.PRICE is 'Per item';
+create table USED_INGREDIENT
+(
+    ID              NUMBER generated as identity
+        constraint "USED_INGREDIENT_pk"
+            primary key,
+    INGREDIENT_ID   NUMBER      not null,
+    WAREHOUSE_ID    NUMBER      not null,
+    QUANTITY        NUMBER      not null,
+    ORIGIN          VARCHAR(50) not null,
+    PRICE           FLOAT       not null,
+    EXPIRATION_DATE DATE        not null,
+    DELETION_DATE   DATE        not null,
+    REASON          VARCHAR(10) not null
+);
 
