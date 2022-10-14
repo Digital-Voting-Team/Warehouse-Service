@@ -43,7 +43,7 @@ create table DELIVERY
         constraint "delivery_warehouse_id_fk"
             references WAREHOUSE,
     DELIVERY_PRICE FLOAT  not null,
-    DELIVERY_DATE  DATE   not null
+    DELIVERY_DATE  DATE
 );
 
 create table INGREDIENT_WAREHOUSE
@@ -81,4 +81,3 @@ create table USED_INGREDIENT
     DELETION_DATE   DATE        not null,
     REASON          VARCHAR(10) not null
 );
-
