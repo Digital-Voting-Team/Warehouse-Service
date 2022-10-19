@@ -69,15 +69,14 @@ create table INGREDIENT_WAREHOUSE
 
 create table USED_INGREDIENT
 (
-    ID              NUMBER generated as identity
+    ID            NUMBER generated as identity
         constraint "USED_INGREDIENT_pk"
             primary key,
-    INGREDIENT_ID   NUMBER      not null,
-    WAREHOUSE_ID    NUMBER      not null,
-    QUANTITY        NUMBER      not null,
-    ORIGIN          VARCHAR(50) not null,
-    PRICE           FLOAT       not null,
-    EXPIRATION_DATE DATE        not null,
-    DELETION_DATE   DATE        not null,
-    REASON          VARCHAR(10) not null
+    QUANTITY      NUMBER      not null,
+    ORIGIN        VARCHAR(50) not null,
+    PRICE         FLOAT       not null,
+    DELETION_DATE DATE        not null,
+    REASON        VARCHAR(10) not null,
+    NAME          VARCHAR(50) not null
 );
+
