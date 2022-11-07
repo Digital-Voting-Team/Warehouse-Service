@@ -1,0 +1,52 @@
+get:
+  tags:
+    - Address
+  summary: Get Address list
+  operationId: getAddressList
+  parameters:
+    - $ref: '#/components/parameters/pageNumberParam'
+    - $ref: '#/components/parameters/pageLimitParam'
+    - $ref: '#/components/parameters/sortingParam'
+    - name: 'filter[building]'
+      in: query
+      required: false
+      schema:
+        type: string
+        format: int64
+    - name: 'filter[street]'
+      in: query
+      required: false
+      schema:
+        type: string
+    - name: 'filter[city]'
+      in: query
+      required: false
+      schema:
+        type: string
+    - name: 'filter[district]'
+      in: query
+      required: false
+      schema:
+        type: string
+    - name: 'filter[region]'
+      in: query
+      required: false
+      schema:
+        type: string
+    - name: 'filter[postal_code]'
+      in: query
+      required: false
+      schema:
+        type: string
+  responses:
+    '200':
+      description: Success
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Address'

@@ -1,0 +1,96 @@
+parameters:
+  - name: id
+    in: path
+    description: 'Used Ingredient identifier'
+    required: true
+    schema:
+      type: string
+      format: int64
+
+get:
+  tags:
+    - Used Ingredient
+  summary: Get Used Ingredient
+  description: 'Get used ingredient by id'
+  operationId: getUsedIngredient
+  responses:
+    '200':
+      description: Success
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                $ref: '#/components/schemas/UsedIngredient'
+    '400':
+      description: Invalid request
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '#/components/schemas/Errors'
+    '404':
+      description: Used Ingredient not found
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '#/components/schemas/Errors'
+    '500':
+      description: Failed to get used ingredient
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '#/components/schemas/Errors'
+
+put:
+  tags:
+    - Used Ingredient
+  summary: Update Used Ingredient
+  description: 'Update used ingredient by id'
+  operationId: updateUsedIngredient
+  requestBody:
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            data:
+              $ref: '#/components/schemas/UsedIngredient'
+  responses:
+    '200':
+      description: Used Ingredient updated
+    '404':
+      description: Invalid used ingredient id
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '#/components/schemas/Errors'
+    '500':
+      description: Failed to update used ingredient
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '#/components/schemas/Errors'
+
+
+delete:
+  tags:
+    - Used Ingredient
+  summary: Delete Used Ingredient
+  description: 'Delete used ingredient by id'
+  operationId: deleteUsedIngredient
+  responses:
+    '204':
+      description: Used Ingredient deleted
+    '404':
+      description: Invalid used ingredient id
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '#/components/schemas/Errors'
+    '500':
+      description: Failed to get used ingredient or failed to mark used ingredient deleted
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '#/components/schemas/Errors'

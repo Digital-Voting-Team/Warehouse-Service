@@ -1,0 +1,39 @@
+allOf:
+  - $ref: '#/components/schemas/DeliveryKey'
+  - type: object
+    required:
+      - attributes
+      - relationships
+    properties:
+      attributes:
+        type: object
+        required:
+          - price
+          - date
+        properties:
+          price:
+            type: string
+            format: float64
+          date:
+            type: string
+            format: time.Time
+      relationships:
+        type: object
+        required:
+          - source
+          - destination
+        properties:
+          source:
+            type: object
+            required:
+              - data
+            properties:
+              data:
+                $ref: '#/components/schemas/WarehouseKey'
+          destination:
+            type: object
+            required:
+              - data
+            properties:
+              data:
+                $ref: '#/components/schemas/WarehouseKey'

@@ -1,0 +1,96 @@
+parameters:
+  - name: id
+    in: path
+    description: 'Delivery identifier'
+    required: true
+    schema:
+      type: string
+      format: int64
+
+get:
+  tags:
+    - Delivery
+  summary: Get Delivery
+  description: 'Get delivery by id'
+  operationId: getDelivery
+  responses:
+    '200':
+      description: Success
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                $ref: '#/components/schemas/Delivery'
+    '400':
+      description: Invalid request
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '#/components/schemas/Errors'
+    '404':
+      description: Delivery not found
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '#/components/schemas/Errors'
+    '500':
+      description: Failed to get delivery
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '#/components/schemas/Errors'
+
+put:
+  tags:
+    - Delivery
+  summary: Update Delivery
+  description: 'Update delivery by id'
+  operationId: updateDelivery
+  requestBody:
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            data:
+              $ref: '#/components/schemas/Delivery'
+  responses:
+    '200':
+      description: Delivery updated
+    '404':
+      description: Invalid delivery id
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '#/components/schemas/Errors'
+    '500':
+      description: Failed to update delivery
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '#/components/schemas/Errors'
+
+
+delete:
+  tags:
+    - Delivery
+  summary: Delete Delivery
+  description: 'Delete delivery by id'
+  operationId: deleteDelivery
+  responses:
+    '204':
+      description: Delivery deleted
+    '404':
+      description: Invalid delivery id
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '#/components/schemas/Errors'
+    '500':
+      description: Failed to get delivery or failed to mark delivery deleted
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '#/components/schemas/Errors'

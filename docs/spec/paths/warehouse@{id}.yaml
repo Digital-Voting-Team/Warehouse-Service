@@ -1,0 +1,96 @@
+parameters:
+  - name: id
+    in: path
+    description: 'Warehouse identifier'
+    required: true
+    schema:
+      type: string
+      format: int64
+
+get:
+  tags:
+    - Warehouse
+  summary: Get Warehouse
+  description: 'Get warehouse by id'
+  operationId: getWarehouse
+  responses:
+    '200':
+      description: Success
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                $ref: '#/components/schemas/Warehouse'
+    '400':
+      description: Invalid request
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '#/components/schemas/Errors'
+    '404':
+      description: Warehouse not found
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '#/components/schemas/Errors'
+    '500':
+      description: Failed to get warehouse
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '#/components/schemas/Errors'
+
+put:
+  tags:
+    - Warehouse
+  summary: Update Warehouse
+  description: 'Update warehouse by id'
+  operationId: updateWarehouse
+  requestBody:
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            data:
+              $ref: '#/components/schemas/Warehouse'
+  responses:
+    '200':
+      description: Warehouse updated
+    '404':
+      description: Invalid warehouse id
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '#/components/schemas/Errors'
+    '500':
+      description: Failed to update warehouse
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '#/components/schemas/Errors'
+
+
+delete:
+  tags:
+    - Warehouse
+  summary: Delete Warehouse
+  description: 'Delete warehouse by id'
+  operationId: deleteWarehouse
+  responses:
+    '204':
+      description: Warehouse deleted
+    '404':
+      description: Invalid warehouse id
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '#/components/schemas/Errors'
+    '500':
+      description: Failed to get warehouse or failed to mark warehouse deleted
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '#/components/schemas/Errors'

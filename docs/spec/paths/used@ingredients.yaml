@@ -1,0 +1,72 @@
+get:
+  tags:
+    - Used Ingredient
+  summary: Get Used Ingredient list
+  operationId: getUsedIngredientList
+  parameters:
+    - $ref: '#/components/parameters/pageNumberParam'
+    - $ref: '#/components/parameters/pageLimitParam'
+    - $ref: '#/components/parameters/sortingParam'
+    - name: 'filter[name]'
+      in: query
+      required: false
+      schema:
+        type: string
+    - name: 'filter[origin]'
+      in: query
+      required: false
+      schema:
+        type: string
+    - name: 'filter[reason]'
+      in: query
+      required: false
+      schema:
+        type: string
+    - name: 'filter[quantity_from]'
+      in: query
+      required: false
+      schema:
+        type: string
+        format: int64
+    - name: 'filter[quantity_to]'
+      in: query
+      required: false
+      schema:
+        type: string
+        format: int64
+    - name: 'filter[price_from]'
+      in: query
+      required: false
+      schema:
+        type: string
+        format: float64
+    - name: 'filter[price_to]'
+      in: query
+      required: false
+      schema:
+        type: string
+        format: float64
+    - name: 'filter[deletion_date_from]'
+      in: query
+      required: false
+      schema:
+        type: string
+        format: time.Time
+    - name: 'filter[deletion_date_to]'
+      in: query
+      required: false
+      schema:
+        type: string
+        format: time.Time
+  responses:
+    '200':
+      description: Success
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                type: array
+                items:
+                  $ref: '#/components/schemas/UsedIngredient'

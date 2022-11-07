@@ -1,0 +1,96 @@
+parameters:
+  - name: id
+    in: path
+    description: 'Ingredient identifier'
+    required: true
+    schema:
+      type: string
+      format: int64
+
+get:
+  tags:
+    - Ingredient
+  summary: Get Ingredient
+  description: 'Get ingredient by id'
+  operationId: getIngredient
+  responses:
+    '200':
+      description: Success
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                $ref: '#/components/schemas/Ingredient'
+    '400':
+      description: Invalid request
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '#/components/schemas/Errors'
+    '404':
+      description: Ingredient not found
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '#/components/schemas/Errors'
+    '500':
+      description: Failed to get ingredient
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '#/components/schemas/Errors'
+
+put:
+  tags:
+    - Ingredient
+  summary: Update Ingredient
+  description: 'Update ingredient by id'
+  operationId: updateIngredient
+  requestBody:
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            data:
+              $ref: '#/components/schemas/Ingredient'
+  responses:
+    '200':
+      description: Ingredient updated
+    '404':
+      description: Invalid ingredient id
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '#/components/schemas/Errors'
+    '500':
+      description: Failed to update ingredient
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '#/components/schemas/Errors'
+
+
+delete:
+  tags:
+    - Ingredient
+  summary: Delete Ingredient
+  description: 'Delete ingredient by id'
+  operationId: deleteIngredient
+  responses:
+    '204':
+      description: Ingredient deleted
+    '404':
+      description: Invalid ingredient id
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '#/components/schemas/Errors'
+    '500':
+      description: Failed to delete ingredient
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '#/components/schemas/Errors'

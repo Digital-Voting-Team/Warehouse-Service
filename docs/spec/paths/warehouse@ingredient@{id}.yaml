@@ -1,0 +1,96 @@
+parameters:
+  - name: id
+    in: path
+    description: 'Warehouse Ingredient identifier'
+    required: true
+    schema:
+      type: string
+      format: int64
+
+get:
+  tags:
+    - Warehouse Ingredient
+  summary: Get Warehouse Ingredient
+  description: 'Get warehouse ingredient by id'
+  operationId: getWarehouseIngredient
+  responses:
+    '200':
+      description: Success
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                $ref: '#/components/schemas/WarehouseIngredient'
+    '400':
+      description: Invalid request
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '#/components/schemas/Errors'
+    '404':
+      description: Warehouse Ingredient not found
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '#/components/schemas/Errors'
+    '500':
+      description: Failed to get warehouse ingredient
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '#/components/schemas/Errors'
+
+put:
+  tags:
+    - Warehouse Ingredient
+  summary: Update Warehouse Ingredient
+  description: 'Update warehouse ingredient by id'
+  operationId: updateWarehouseIngredient
+  requestBody:
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            data:
+              $ref: '#/components/schemas/WarehouseIngredient'
+  responses:
+    '200':
+      description: Warehouse Ingredient updated
+    '404':
+      description: Invalid warehouse ingredient id
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '#/components/schemas/Errors'
+    '500':
+      description: Failed to update warehouse ingredient
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '#/components/schemas/Errors'
+
+
+delete:
+  tags:
+    - Warehouse Ingredient
+  summary: Delete Warehouse Ingredient
+  description: 'Delete warehouse ingredient by id'
+  operationId: deleteWarehouseIngredient
+  responses:
+    '204':
+      description: Warehouse Ingredient deleted
+    '404':
+      description: Invalid warehouse ingredient id
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '#/components/schemas/Errors'
+    '500':
+      description: Failed to get warehouse ingredient or failed to mark warehouse ingredient deleted
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '#/components/schemas/Errors'

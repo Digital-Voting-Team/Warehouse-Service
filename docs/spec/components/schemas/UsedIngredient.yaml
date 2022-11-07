@@ -1,0 +1,31 @@
+allOf:
+  - $ref: '#/components/schemas/WarehouseKey'
+  - type: object
+    required:
+      - attributes
+    properties:
+      attributes:
+        type: object
+        required:
+          - quantity
+          - origin
+          - price
+          - deletion_date
+          - reason
+          - name
+        properties:
+          quantity:
+            type: string
+            format: int64
+          origin:
+            type: string
+          price:
+            type: string
+            format: float64
+          deletion_date:
+            type: string
+            format: Time.time
+          reason:
+            type: string
+          name:
+            type: string

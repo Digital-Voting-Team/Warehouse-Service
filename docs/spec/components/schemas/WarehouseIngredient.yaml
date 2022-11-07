@@ -1,0 +1,54 @@
+allOf:
+  - $ref: '#/components/schemas/WarehouseIngredientKey'
+  - type: object
+    required:
+      - attributes
+      - relationships
+    properties:
+      attributes:
+        type: object
+        required:
+          - quantity
+          - origin
+          - price
+          - expiration_date
+        properties:
+          quantity:
+            type: string
+            format: int64
+          origin:
+            type: string
+          price:
+            type: string
+            format: float64
+          expiration_date:
+            type: string
+            format: Time.time
+      relationships:
+        type: object
+        required:
+          - ingredient
+          - warehouse
+          - delivery
+        properties:
+          ingredient:
+            type: object
+            required:
+              - data
+            properties:
+              data:
+                $ref: '#/components/schemas/IngredientKey'
+          warehouse:
+            type: object
+            required:
+              - data
+            properties:
+              data:
+                $ref: '#/components/schemas/WarehouseKey'
+          delivery:
+            type: object
+            required:
+              - data
+            properties:
+              data:
+                $ref: '#/components/schemas/DeliveryKey'

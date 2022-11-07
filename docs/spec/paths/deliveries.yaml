@@ -1,0 +1,57 @@
+get:
+  tags:
+    - Delivery
+  summary: Get Delivery list
+  operationId: getDeliveryList
+  parameters:
+    - $ref: '#/components/parameters/pageNumberParam'
+    - $ref: '#/components/parameters/pageLimitParam'
+    - $ref: '#/components/parameters/sortingParam'
+    - name: 'filter[source_id]'
+      in: query
+      required: false
+      schema:
+        type: string
+        format: int64
+    - name: 'filter[destination_id]'
+      in: query
+      required: false
+      schema:
+        type: string
+        format: int64
+    - name: 'filter[price_from]'
+      in: query
+      required: false
+      schema:
+        type: string
+        format: float64
+    - name: 'filter[price_to]'
+      in: query
+      required: false
+      schema:
+        type: string
+        format: float64
+    - name: 'filter[date_from]'
+      in: query
+      required: false
+      schema:
+        type: string
+        format: time.Time
+    - name: 'filter[date_to]'
+      in: query
+      required: false
+      schema:
+        type: string
+        format: time.Time
+  responses:
+    '200':
+      description: Success
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Delivery'

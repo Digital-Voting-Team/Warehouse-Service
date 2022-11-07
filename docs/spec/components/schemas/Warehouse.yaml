@@ -1,0 +1,31 @@
+allOf:
+  - $ref: '#/components/schemas/WarehouseKey'
+  - type: object
+    required:
+      - attributes
+      - relationships
+    properties:
+      attributes:
+        type: object
+        required:
+          - cafe_id
+          - capacity
+        properties:
+          cafe_id:
+            type: string
+            format: int64
+          capacity:
+            type: string
+            format: int64
+      relationships:
+        type: object
+        required:
+          - address
+        properties:
+          address:
+            type: object
+            required:
+              - data
+            properties:
+              data:
+                $ref: '#/components/schemas/AddressKey'

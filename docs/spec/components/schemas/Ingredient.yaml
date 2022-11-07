@@ -1,0 +1,13 @@
+allOf:
+  - $ref: '#/components/schemas/IngredientKey'
+  - type: object
+    required:
+      - attributes
+    properties:
+      attributes:
+        type: object
+        required:
+          - name
+        properties:
+          name:
+            type: string

@@ -1,0 +1,45 @@
+get:
+  tags:
+    - Warehouse
+  summary: Get Warehouse list
+  operationId: getWarehouseList
+  parameters:
+    - $ref: '#/components/parameters/pageNumberParam'
+    - $ref: '#/components/parameters/pageLimitParam'
+    - $ref: '#/components/parameters/sortingParam'
+    - name: 'filter[cafe_id]'
+      in: query
+      required: false
+      schema:
+        type: string
+        format: int64
+    - name: 'filter[address_id]'
+      in: query
+      required: false
+      schema:
+        type: string
+        format: int64
+    - name: 'filter[capacity_from]'
+      in: query
+      required: false
+      schema:
+        type: string
+        format: int64
+    - name: 'filter[capacity_to]'
+      in: query
+      required: false
+      schema:
+        type: string
+        format: int64
+  responses:
+    '200':
+      description: Success
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Warehouse'

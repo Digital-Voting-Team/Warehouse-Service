@@ -1,0 +1,12 @@
+type: object
+required:
+  - id
+  - type
+properties:
+  id:
+    type: string
+    format: int64
+  type:
+    type: string
+    enum:
+      - warehouse
