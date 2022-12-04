@@ -42,11 +42,11 @@ create table DELIVERY
     DESTINATION_ID NUMBER not null
         constraint "delivery_warehouse_id_fk"
             references WAREHOUSE,
-    DELIVERY_PRICE FLOAT  not null,
-    DELIVERY_DATE  DATE
+    PRICE          FLOAT  not null,
+    "DATE"         DATE   not null
 );
 
-create table INGREDIENT_WAREHOUSE
+create table WAREHOUSE_INGREDIENT
 (
     ID              NUMBER generated as identity
         constraint "ingredient_warehouse_pk"
@@ -61,7 +61,6 @@ create table INGREDIENT_WAREHOUSE
     ORIGIN          VARCHAR(50) not null,
     PRICE           FLOAT       not null,
     EXPIRATION_DATE DATE        not null,
-    DELIVERY_DATE   DATE        not null,
     DELIVERY_ID     NUMBER      not null
         constraint "INGREDIENT_WAREHOUSE_DELIVERY_null_fk"
             references DELIVERY

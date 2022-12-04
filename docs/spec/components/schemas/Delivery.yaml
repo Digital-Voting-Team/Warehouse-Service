@@ -25,6 +25,7 @@ allOf:
         properties:
           source:
             type: object
+            description: "Source"
             required:
               - data
             properties:
@@ -32,6 +33,7 @@ allOf:
                 $ref: '#/components/schemas/WarehouseKey'
           destination:
             type: object
+            description: "Destination"
             required:
               - data
             properties:

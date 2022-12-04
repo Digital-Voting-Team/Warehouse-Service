@@ -24,7 +24,7 @@ allOf:
             format: float64
           deletion_date:
             type: string
-            format: Time.time
+            format: time.Time
           reason:
             type: string
           name:

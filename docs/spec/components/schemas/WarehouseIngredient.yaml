@@ -23,7 +23,7 @@ allOf:
             format: float64
           expiration_date:
             type: string
-            format: Time.time
+            format: time.Time
       relationships:
         type: object
         required:
