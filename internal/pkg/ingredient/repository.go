@@ -1,99 +1,105 @@
 package ingredient
 
 import (
+	"database/sql"
+	sq "github.com/Masterminds/squirrel"
+	"github.com/fatih/structs"
 	"github.com/jmoiron/sqlx"
+	"gitlab.com/distributed_lab/kit/pgdb"
+	"warehouse-service/internal/pkg/common"
 )
+
+const ingredientsTableName = "warehouse.ingredient"
 
 var (
 	queryInsertIngredient = `INSERT INTO WAREHOUSE.INGREDIENT (NAME)
 					  	  VALUES (:1) RETURNING ID INTO :2`
-	querySelectIngredient = `SELECT * FROM WAREHOUSE.INGREDIENT WHERE ID=:1`
-	queryDeleteIngredient = `DELETE FROM WAREHOUSE.INGREDIENT WHERE ID = :1`
-	queryGetIngredientId  = `SELECT ID FROM WAREHOUSE.INGREDIENT WHERE NAME = :1`
 )
 
-type Repository struct {
-	db *sqlx.DB
+type query struct {
+	db        *sqlx.DB
+	sql       sq.SelectBuilder
+	sqlUpdate sq.UpdateBuilder
 }
 
-func NewRepository(db *sqlx.DB) *Repository {
-	return &Repository{db: db}
+func NewQuery(db *sqlx.DB) Query {
+	return &query{
+		db:        db,
+		sql:       sq.Select("*").From(ingredientsTableName).PlaceholderFormat(sq.Colon),
+		sqlUpdate: sq.Update(ingredientsTableName).PlaceholderFormat(sq.Colon),
+	}
 }
 
-func (r *Repository) Insert(ingredient *Ingredient) (int64, error) {
-	id, _ := r.GetId(ingredient)
+func (q *query) New() Query {
+	return NewQuery(q.db)
+}
 
-	if id == -1 {
-		result, err := r.db.Queryx(queryInsertIngredient, ingredient.Name, &ingredient.Id)
+func (q *query) Get() (*Ingredient, error) {
+	var result Ingredient
 
-		if err != nil {
-			return -1, err
-		}
-
-		defer result.Close()
-
-		return ingredient.Id, nil
+	sqlString, args, _ := q.sql.ToSql()
+	err := q.db.Get(&result, sqlString, args...)
+	if err == sql.ErrNoRows {
+		return nil, nil
 	}
 
-	return id, nil
+	return &result, err
 }
 
-func (r *Repository) Select(id int64) (*Ingredient, error) {
-	result, err := r.db.Queryx(querySelectIngredient, id)
+func (q *query) Select() ([]Ingredient, error) {
+	var result []Ingredient
+	sqlString, args, _ := q.sql.ToSql()
+
+	err := q.db.Select(&result, sqlString, args...)
+	return result, err
+}
+
+func (q *query) Insert(ingredient Ingredient) (Ingredient, error) {
+	result, err := q.db.Queryx(queryInsertIngredient, ingredient.Name, &ingredient.Id)
 
 	if err != nil {
-		return nil, err
+		return Ingredient{}, err
 	}
 
 	defer result.Close()
-
-	ingredient := new(Ingredient)
-
-	result.Next()
-	err = result.StructScan(ingredient)
-
-	if err != nil {
-		return nil, err
-	}
 
 	return ingredient, nil
 }
 
-func (r *Repository) GetId(ingredient *Ingredient) (int64, error) {
-	result, err := r.db.Queryx(queryGetIngredientId, ingredient.Name)
+func (q *query) Update(ingredient Ingredient) (Ingredient, error) {
+	var result *Ingredient
+	clauses := structs.Map(ingredient)
+	clauses["name"] = ingredient.Name
 
-	if err != nil {
-		return -1, err
-	}
+	sqlString, args, _ := q.sqlUpdate.SetMap(clauses).ToSql()
 
-	defer result.Close()
+	_, err := q.db.Exec(sqlString, args...)
 
-	result.Next()
-	err = result.Scan(&ingredient.Id)
+	result, err = q.Get()
 
-	if err != nil {
-		return -1, err
-	}
-
-	return ingredient.Id, nil
+	return *result, err
 }
 
-func (r *Repository) Update(ingredient *Ingredient) (int64, error) {
-	id, _ := r.GetId(ingredient)
-
-	if id == -1 {
-		return r.Insert(ingredient)
-	}
-
-	return id, nil
+func (q *query) Delete(id int64) error {
+	stmt := sq.Delete(ingredientsTableName).Where(sq.Eq{"id": id}).PlaceholderFormat(sq.Colon)
+	sqlString, args, _ := stmt.ToSql()
+	_, err := q.db.Exec(sqlString, args...)
+	return err
 }
 
-func (r *Repository) Delete(id int64) error {
-	_, err := r.db.Exec(queryDeleteIngredient, id)
+func (q *query) Page(pageParams pgdb.OffsetPageParams) Query {
+	q.sql = common.ApplyPageParams(&pageParams, q.sql, "id")
 
-	if err != nil {
-		return err
-	}
+	return q
+}
 
-	return nil
+func (q *query) FilterById(ids ...int64) Query {
+	q.sql = q.sql.Where(sq.Eq{"id": ids})
+	q.sqlUpdate = q.sqlUpdate.Where(sq.Eq{"id": ids})
+	return q
+}
+
+func (q *query) FilterByName(names ...string) Query {
+	q.sql = q.sql.Where(sq.Eq{"name": names})
+	return q
 }

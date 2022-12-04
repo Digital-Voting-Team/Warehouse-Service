@@ -1,104 +1,125 @@
 package delivery
 
 import (
+	"database/sql"
+	sq "github.com/Masterminds/squirrel"
+	"github.com/fatih/structs"
 	"github.com/jmoiron/sqlx"
+	"gitlab.com/distributed_lab/kit/pgdb"
+	"time"
+	"warehouse-service/internal/pkg/common"
 )
+
+const deliveriesTableName = "warehouse.delivery"
 
 var (
-	queryInsertDelivery = `INSERT INTO WAREHOUSE.DELIVERY (SOURCE_ID, DESTINATION_ID, DELIVERY_PRICE, DELIVERY_DATE)
+	queryInsertDelivery = `INSERT INTO WAREHOUSE.DELIVERY (SOURCE_ID, DESTINATION_ID, PRICE, DATE)
 					  	  VALUES (:1, :2, :3, :4) RETURNING ID INTO :5`
-	querySelectDelivery = `SELECT * FROM WAREHOUSE.DELIVERY WHERE ID=:1`
-	queryDeleteDelivery = `DELETE FROM WAREHOUSE.DELIVERY WHERE ID = :1`
-	queryGetDeliveryId  = `SELECT ID FROM WAREHOUSE.DELIVERY WHERE SOURCE_ID = :1 AND
-																   DESTINATION_ID = :2 AND
-																   DELIVERY_PRICE = :3 AND
-																   DELIVERY_DATE = :4`
 )
 
-type Repository struct {
-	db *sqlx.DB
+type query struct {
+	db        *sqlx.DB
+	sql       sq.SelectBuilder
+	sqlUpdate sq.UpdateBuilder
 }
 
-func NewRepository(db *sqlx.DB) *Repository {
-	return &Repository{db: db}
+func NewQuery(db *sqlx.DB) Query {
+	return &query{
+		db:        db,
+		sql:       sq.Select("*").From(deliveriesTableName).PlaceholderFormat(sq.Colon),
+		sqlUpdate: sq.Update(deliveriesTableName).PlaceholderFormat(sq.Colon),
+	}
 }
 
-func (r *Repository) Insert(delivery *Delivery) (int64, error) {
-	id, _ := r.GetId(delivery)
+func (q *query) New() Query {
+	return NewQuery(q.db)
+}
 
-	if id == -1 {
-		result, err := r.db.Queryx(queryInsertDelivery, delivery.SourceId, delivery.DestinationId,
-			delivery.DeliveryPrice, delivery.DeliveryDate, &delivery.Id)
+func (q *query) Get() (*Delivery, error) {
+	var result Delivery
 
-		if err != nil {
-			return -1, err
-		}
-
-		defer result.Close()
-
-		return delivery.Id, nil
+	sqlString, args, _ := q.sql.ToSql()
+	err := q.db.Get(&result, sqlString, args...)
+	if err == sql.ErrNoRows {
+		return nil, nil
 	}
 
-	return id, nil
+	return &result, err
 }
 
-func (r *Repository) Select(id int64) (*Delivery, error) {
-	result, err := r.db.Queryx(querySelectDelivery, id)
+func (q *query) Select() ([]Delivery, error) {
+	var result []Delivery
+	sqlString, args, _ := q.sql.ToSql()
+
+	err := q.db.Select(&result, sqlString, args...)
+	return result, err
+}
+
+func (q *query) Insert(delivery Delivery) (Delivery, error) {
+	result, err := q.db.Queryx(queryInsertDelivery, delivery.SourceId, delivery.DestinationId,
+		delivery.Price, delivery.Date, &delivery.Id)
 
 	if err != nil {
-		return nil, err
+		return Delivery{}, err
 	}
 
 	defer result.Close()
-
-	delivery := new(Delivery)
-
-	result.Next()
-	err = result.StructScan(delivery)
-
-	if err != nil {
-		return nil, err
-	}
 
 	return delivery, nil
 }
 
-func (r *Repository) GetId(delivery *Delivery) (int64, error) {
-	result, err := r.db.Queryx(queryGetDeliveryId, delivery.SourceId, delivery.DestinationId,
-		delivery.DeliveryPrice, delivery.DeliveryDate)
+func (q *query) Update(delivery Delivery) (Delivery, error) {
+	var result *Delivery
+	clauses := structs.Map(delivery)
+	clauses["source_id"] = delivery.SourceId
+	clauses["destination_id"] = delivery.DestinationId
+	clauses["price"] = delivery.Price
+	clauses["date"] = delivery.Date
 
-	if err != nil {
-		return -1, err
-	}
+	sqlString, args, _ := q.sqlUpdate.SetMap(clauses).ToSql()
 
-	defer result.Close()
+	_, err := q.db.Exec(sqlString, args...)
 
-	result.Next()
-	err = result.Scan(&delivery.Id)
+	result, err = q.Get()
 
-	if err != nil {
-		return -1, err
-	}
-
-	return delivery.Id, nil
+	return *result, err
 }
 
-func (r *Repository) Update(delivery *Delivery) (int64, error) {
-	id, _ := r.GetId(delivery)
-
-	if id == -1 {
-		return r.Insert(delivery)
-	}
-
-	return id, nil
+func (q *query) Delete(id int64) error {
+	stmt := sq.Delete(deliveriesTableName).Where(sq.Eq{"id": id}).PlaceholderFormat(sq.Colon)
+	sqlString, args, _ := stmt.ToSql()
+	_, err := q.db.Exec(sqlString, args...)
+	return err
 }
 
-func (r *Repository) Delete(id int64) error {
-	_, err := r.db.Exec(queryDeleteDelivery, id)
+func (q *query) Page(pageParams pgdb.OffsetPageParams) Query {
+	q.sql = common.ApplyPageParams(&pageParams, q.sql, "id")
 
-	if err != nil {
-		return err
-	}
+	return q
+}
 
-	return nil
+func (q *query) FilterById(ids ...int64) Query {
+	q.sql = q.sql.Where(sq.Eq{"id": ids})
+	q.sqlUpdate = q.sqlUpdate.Where(sq.Eq{"id": ids})
+	return q
+}
+
+func (q *query) FilterBySourceId(ids ...int64) Query {
+	q.sql = q.sql.Where(sq.Eq{"source_id": ids})
+	return q
+}
+
+func (q *query) FilterByDestinationId(ids ...int64) Query {
+	q.sql = q.sql.Where(sq.Eq{"destination_id": ids})
+	return q
+}
+
+func (q *query) FilterByPrice(prices ...float64) Query {
+	q.sql = q.sql.Where(sq.Eq{"price": prices})
+	return q
+}
+
+func (q *query) FilterByDate(dates ...time.Time) Query {
+	q.sql = q.sql.Where(sq.Eq{"date": dates})
+	return q
 }
