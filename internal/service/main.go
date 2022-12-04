@@ -13,9 +13,10 @@ import (
 )
 
 type service struct {
-	log      *logan.Entry
-	copus    types.Copus
-	listener net.Listener
+	log       *logan.Entry
+	copus     types.Copus
+	listener  net.Listener
+	endpoints *config.EndpointsConfig
 }
 
 func (s *service) run(db *sqlx.DB) error {
@@ -31,9 +32,10 @@ func (s *service) run(db *sqlx.DB) error {
 
 func newService(cfg config.Config) *service {
 	return &service{
-		log:      cfg.Log(),
-		copus:    cfg.Copus(),
-		listener: cfg.Listener(),
+		log:       cfg.Log(),
+		copus:     cfg.Copus(),
+		listener:  cfg.Listener(),
+		endpoints: cfg.EndpointsConfig(),
 	}
 }
 

@@ -3,7 +3,7 @@ log:
   level: "info"
 
 listener:
-  addr: :8000
+  addr: :9109
 
 cop:
   disabled: true

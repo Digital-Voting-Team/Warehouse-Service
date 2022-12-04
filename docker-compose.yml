@@ -1,0 +1,25 @@
+version: '3.3'
+
+services:
+  warehouse-service:
+    restart: unless-stopped
+    build: .
+    ports:
+      - "9109:9109"
+    depends_on:
+      - warehouse-db
+    environment:
+      - KV_VIPER_FILE=/config.yaml
+      - AUTH_SERVICE=http://127.0.0.1:9110/jwt/login
+    volumes:
+      - ./config.yaml:/config.yaml
+    entrypoint: sh -c "warehouse-service migrate up && warehouse-service run service"
+
+  warehouse-db:
+    image: oracle/database:18.3.0-ee
+    volumes:
+      - /home/oracle/oradata:/opt/oracle/oradata # persistent oracle database data.
+    ports:
+      - 1521:1521
+      - 8080:8080
+      - 5500:5500
