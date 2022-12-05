@@ -5,12 +5,12 @@ services:
     restart: unless-stopped
     build: .
     ports:
-#       localhost:docker
       - "9109:9109"
     depends_on:
       - warehouse-db
     environment:
       - KV_VIPER_FILE=/config.yaml
+      - DB_URL=oracle://WAREHOUSE:WAREHOUSE@warehouse-db:1521/XEPDB1
     volumes:
       - ./config.yaml:/config.yaml
     entrypoint: sh -c "warehouse-service run service"

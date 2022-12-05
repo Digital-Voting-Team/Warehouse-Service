@@ -2,6 +2,7 @@ package cli
 
 import (
 	_ "github.com/sijms/go-ora/v2"
+	"os"
 
 	"github.com/Digital-Voting-Team/warehouse-service/internal/config"
 	"github.com/Digital-Voting-Team/warehouse-service/internal/service"
@@ -31,7 +32,7 @@ func Run(args []string) bool {
 
 	// custom commands go here...
 
-	db, err := sqlx.Connect("oracle", "oracle://WAREHOUSE:WAREHOUSE@warehouse-db:1521/XEPDB1")
+	db, err := sqlx.Connect("oracle", os.Getenv("DB_URL"))
 
 	if err != nil {
 		log.Panic(err)
