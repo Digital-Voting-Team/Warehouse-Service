@@ -1,0 +1,34 @@
+version: '3.3'
+
+services:
+  warehouse-service:
+    restart: unless-stopped
+    build: .
+    ports:
+#       localhost:docker
+      - "9109:9109"
+    depends_on:
+      - warehouse-db
+    environment:
+      - KV_VIPER_FILE=/config.yaml
+    volumes:
+      - ./config.yaml:/config.yaml
+    entrypoint: sh -c "warehouse-service run service"
+
+
+  warehouse-db:
+    image: gvenzl/oracle-xe:latest
+    container_name: warehouse-db
+    volumes:
+      - ./oracle-volume:/opt/oracle/oradata
+      - ./startup-scripts:/container-entrypoint-startdb.d
+    ports:
+      - "1522:1521"
+    environment:
+      ORACLE_PASSWORD: root
+      APP_USER: WAREHOUSE
+      APP_USER_PASSWORD: WAREHOUSE
+
+volumes:
+  oracle-volume:
+  startup-scripts:

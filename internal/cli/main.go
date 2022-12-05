@@ -31,7 +31,7 @@ func Run(args []string) bool {
 
 	// custom commands go here...
 
-	db, err := sqlx.Connect("oracle", "oracle://WAREHOUSE:admin@localhost:1521/XEPDB1")
+	db, err := sqlx.Connect("oracle", "oracle://WAREHOUSE:WAREHOUSE@warehouse-db:1521/XEPDB1")
 
 	if err != nil {
 		log.Panic(err)
