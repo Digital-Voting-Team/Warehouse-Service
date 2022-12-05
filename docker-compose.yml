@@ -10,16 +10,23 @@ services:
       - warehouse-db
     environment:
       - KV_VIPER_FILE=/config.yaml
-      - AUTH_SERVICE=http://127.0.0.1:9110/jwt/login
     volumes:
       - ./config.yaml:/config.yaml
     entrypoint: sh -c "warehouse-service migrate up && warehouse-service run service"
 
   warehouse-db:
-    image: oracle/database:18.3.0-ee
+    image: gvenzl/oracle-xe:latest
+    container_name: warehouse-db
     volumes:
-      - /home/oracle/oradata:/opt/oracle/oradata # persistent oracle database data.
+      - ./oracle-volume:/opt/oracle/oradata
+      - ./startup-scripts:/container-entrypoint-startdb.d
     ports:
-      - 1521:1521
-      - 8080:8080
-      - 5500:5500
+      - "1522:1521"
+    environment:
+      ORACLE_PASSWORD: root
+      APP_USER: WAREHOUSE
+      APP_USER_PASSWORD: WAREHOUSE
+
+volumes:
+  oracle-volume:
+  startup-scripts:
