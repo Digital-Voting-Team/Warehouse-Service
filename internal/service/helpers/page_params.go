@@ -1,9 +1,9 @@
 package helpers
 
 import (
+	"github.com/Digital-Voting-Team/warehouse-service/resources"
 	"net/http"
 	"strconv"
-	"warehouse-service/resources"
 
 	"gitlab.com/distributed_lab/kit/pgdb"
 )

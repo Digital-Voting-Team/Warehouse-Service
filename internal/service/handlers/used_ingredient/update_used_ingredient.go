@@ -1,11 +1,11 @@
 package handlers
 
 import (
+	usedIngredient "github.com/Digital-Voting-Team/warehouse-service/internal/pkg/used_ingredient"
+	"github.com/Digital-Voting-Team/warehouse-service/internal/service/helpers"
+	requests "github.com/Digital-Voting-Team/warehouse-service/internal/service/requests/used_ingredient"
+	"github.com/Digital-Voting-Team/warehouse-service/resources"
 	"net/http"
-	usedIngredient "warehouse-service/internal/pkg/used_ingredient"
-	"warehouse-service/internal/service/helpers"
-	requests "warehouse-service/internal/service/requests/used_ingredient"
-	"warehouse-service/resources"
 
 	"gitlab.com/distributed_lab/ape"
 	"gitlab.com/distributed_lab/ape/problems"

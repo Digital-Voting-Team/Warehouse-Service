@@ -1,4 +1,4 @@
-module warehouse-service
+module github.com/Digital-Voting-Team/warehouse-service
 
 go 1.19
 

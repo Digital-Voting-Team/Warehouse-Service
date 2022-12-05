@@ -2,12 +2,12 @@ package delivery
 
 import (
 	"database/sql"
+	"github.com/Digital-Voting-Team/warehouse-service/internal/pkg/common"
 	sq "github.com/Masterminds/squirrel"
 	"github.com/fatih/structs"
 	"github.com/jmoiron/sqlx"
 	"gitlab.com/distributed_lab/kit/pgdb"
 	"time"
-	"warehouse-service/internal/pkg/common"
 )
 
 const deliveriesTableName = "warehouse.delivery"

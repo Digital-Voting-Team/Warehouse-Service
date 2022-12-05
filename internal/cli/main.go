@@ -3,9 +3,9 @@ package cli
 import (
 	_ "github.com/sijms/go-ora/v2"
 
+	"github.com/Digital-Voting-Team/warehouse-service/internal/config"
+	"github.com/Digital-Voting-Team/warehouse-service/internal/service"
 	"github.com/jmoiron/sqlx"
-	"warehouse-service/internal/config"
-	"warehouse-service/internal/service"
 
 	"github.com/alecthomas/kingpin"
 	"gitlab.com/distributed_lab/kit/kv"

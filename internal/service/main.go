@@ -5,7 +5,7 @@ import (
 	"net"
 	"net/http"
 
-	"warehouse-service/internal/config"
+	"github.com/Digital-Voting-Team/warehouse-service/internal/config"
 
 	"gitlab.com/distributed_lab/kit/copus/types"
 	"gitlab.com/distributed_lab/logan/v3"

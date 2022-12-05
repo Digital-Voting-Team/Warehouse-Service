@@ -1,13 +1,13 @@
 package handlers
 
 import (
+	"github.com/Digital-Voting-Team/warehouse-service/internal/pkg/delivery"
+	"github.com/Digital-Voting-Team/warehouse-service/internal/service/helpers"
+	requests "github.com/Digital-Voting-Team/warehouse-service/internal/service/requests/delivery"
+	"github.com/Digital-Voting-Team/warehouse-service/resources"
 	"github.com/spf13/cast"
 	"net/http"
 	"strconv"
-	"warehouse-service/internal/pkg/delivery"
-	"warehouse-service/internal/service/helpers"
-	requests "warehouse-service/internal/service/requests/delivery"
-	"warehouse-service/resources"
 
 	"gitlab.com/distributed_lab/ape"
 	"gitlab.com/distributed_lab/ape/problems"

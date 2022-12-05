@@ -2,11 +2,11 @@ package warehouse
 
 import (
 	"database/sql"
+	"github.com/Digital-Voting-Team/warehouse-service/internal/pkg/common"
 	sq "github.com/Masterminds/squirrel"
 	"github.com/fatih/structs"
 	"github.com/jmoiron/sqlx"
 	"gitlab.com/distributed_lab/kit/pgdb"
-	"warehouse-service/internal/pkg/common"
 )
 
 const addressesTableName = "warehouse.warehouse"

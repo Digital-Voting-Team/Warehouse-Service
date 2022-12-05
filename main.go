@@ -1,8 +1,8 @@
 package main
 
 import (
+	"github.com/Digital-Voting-Team/warehouse-service/internal/cli"
 	"os"
-	"warehouse-service/internal/cli"
 )
 
 func main() {

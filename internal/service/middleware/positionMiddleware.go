@@ -2,9 +2,9 @@ package middleware
 
 import (
 	staffRes "github.com/Digital-Voting-Team/staff-service/resources"
+	"github.com/Digital-Voting-Team/warehouse-service/internal/service/helpers"
 	"gitlab.com/distributed_lab/ape"
 	"gitlab.com/distributed_lab/ape/problems"
-	"warehouse-service/internal/service/helpers"
 
 	"net/http"
 )

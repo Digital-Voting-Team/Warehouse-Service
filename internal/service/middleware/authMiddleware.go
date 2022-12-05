@@ -4,12 +4,12 @@ import (
 	"context"
 	authEndoints "github.com/Digital-Voting-Team/auth-serivce/endpoints"
 	staffEndoints "github.com/Digital-Voting-Team/staff-service/endpoints"
+	"github.com/Digital-Voting-Team/warehouse-service/internal/config"
+	"github.com/Digital-Voting-Team/warehouse-service/internal/service/helpers"
 	"github.com/spf13/cast"
 	"gitlab.com/distributed_lab/ape"
 	"gitlab.com/distributed_lab/ape/problems"
 	"net/http"
-	"warehouse-service/internal/config"
-	"warehouse-service/internal/service/helpers"
 )
 
 func BasicAuth(endpointsConf *config.EndpointsConfig) func(next http.Handler) http.Handler {
