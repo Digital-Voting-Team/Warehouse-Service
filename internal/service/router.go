@@ -15,6 +15,7 @@ import (
 	warehouseHandlers "warehouse-service/internal/service/handlers/warehouse"
 	warehouseIngredientHandlers "warehouse-service/internal/service/handlers/warehouse_ingredient"
 	"warehouse-service/internal/service/helpers"
+	"warehouse-service/internal/service/middleware"
 
 	"github.com/go-chi/chi"
 	"gitlab.com/distributed_lab/ape"
@@ -35,8 +36,10 @@ func (s *service) router(db *sqlx.DB) chi.Router {
 			helpers.CtxWarehousesQuery(warehouse.NewQuery(db)),
 			helpers.CtxWarehouseIngredientsQuery(warehouse_ingredient.NewQuery(db)),
 		),
+		middleware.BasicAuth(s.endpoints),
 	)
 	r.Route("/integrations/warehouse-service", func(r chi.Router) {
+		r.Use(middleware.CheckManagerPosition())
 		r.Route("/addresses", func(r chi.Router) {
 			r.Get("/", addressHandlers.GetAddressList)
 		})

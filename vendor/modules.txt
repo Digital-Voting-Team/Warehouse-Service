@@ -1,3 +1,11 @@
+# github.com/Digital-Voting-Team/auth-serivce v1.1.0
+## explicit; go 1.19
+github.com/Digital-Voting-Team/auth-serivce/endpoints
+github.com/Digital-Voting-Team/auth-serivce/resources
+# github.com/Digital-Voting-Team/staff-service v1.0.7
+## explicit; go 1.19
+github.com/Digital-Voting-Team/staff-service/endpoints
+github.com/Digital-Voting-Team/staff-service/resources
 # github.com/Masterminds/squirrel v1.5.3
 ## explicit; go 1.14
 github.com/Masterminds/squirrel
@@ -11,9 +19,29 @@ github.com/alecthomas/template/parse
 # github.com/alecthomas/units v0.0.0-20211218093645-b94a6e3cc137
 ## explicit; go 1.15
 github.com/alecthomas/units
+# github.com/btcsuite/btcd/btcec/v2 v2.3.0
+## explicit; go 1.17
+github.com/btcsuite/btcd/btcec/v2
+github.com/btcsuite/btcd/btcec/v2/ecdsa
 # github.com/certifi/gocertifi v0.0.0-20210507211836-431795d63e8d
 ## explicit; go 1.12
 github.com/certifi/gocertifi
+# github.com/decred/dcrd/dcrec/secp256k1/v4 v4.1.0
+## explicit; go 1.17
+github.com/decred/dcrd/dcrec/secp256k1/v4
+github.com/decred/dcrd/dcrec/secp256k1/v4/ecdsa
+# github.com/ethereum/go-ethereum v1.10.26
+## explicit; go 1.17
+github.com/ethereum/go-ethereum/common
+github.com/ethereum/go-ethereum/common/hexutil
+github.com/ethereum/go-ethereum/common/math
+github.com/ethereum/go-ethereum/crypto
+github.com/ethereum/go-ethereum/crypto/secp256k1
+github.com/ethereum/go-ethereum/crypto/secp256k1/libsecp256k1/include
+github.com/ethereum/go-ethereum/crypto/secp256k1/libsecp256k1/src
+github.com/ethereum/go-ethereum/crypto/secp256k1/libsecp256k1/src/modules/recovery
+github.com/ethereum/go-ethereum/rlp
+github.com/ethereum/go-ethereum/rlp/internal/rlpstruct
 # github.com/fatih/structs v1.1.0
 ## explicit
 github.com/fatih/structs
@@ -135,6 +163,9 @@ gitlab.com/distributed_lab/ape/problems
 # gitlab.com/distributed_lab/figure v2.1.2+incompatible
 ## explicit
 gitlab.com/distributed_lab/figure
+# gitlab.com/distributed_lab/figure/v3 v3.1.2
+## explicit; go 1.19
+gitlab.com/distributed_lab/figure/v3
 # gitlab.com/distributed_lab/kit v1.11.1
 ## explicit; go 1.14
 gitlab.com/distributed_lab/kit/comfig
@@ -163,8 +194,12 @@ gitlab.com/distributed_lab/running
 gitlab.com/distributed_lab/urlval
 gitlab.com/distributed_lab/urlval/internal
 gitlab.com/distributed_lab/urlval/internal/betterreflect
+# golang.org/x/crypto v0.1.0
+## explicit; go 1.17
+golang.org/x/crypto/sha3
 # golang.org/x/sys v0.1.0
 ## explicit; go 1.17
+golang.org/x/sys/cpu
 golang.org/x/sys/execabs
 golang.org/x/sys/internal/unsafeheader
 golang.org/x/sys/unix

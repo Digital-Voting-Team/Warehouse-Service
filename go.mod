@@ -3,6 +3,8 @@ module warehouse-service
 go 1.19
 
 require (
+	github.com/Digital-Voting-Team/auth-serivce v1.1.0
+	github.com/Digital-Voting-Team/staff-service v1.0.7
 	github.com/Masterminds/squirrel v1.5.3
 	github.com/alecthomas/kingpin v2.2.6+incompatible
 	github.com/fatih/structs v1.1.0
@@ -12,6 +14,7 @@ require (
 	github.com/sijms/go-ora/v2 v2.5.3
 	github.com/spf13/cast v1.5.0
 	gitlab.com/distributed_lab/ape v1.7.1
+	gitlab.com/distributed_lab/figure/v3 v3.1.2
 	gitlab.com/distributed_lab/kit v1.11.1
 	gitlab.com/distributed_lab/logan v3.8.1+incompatible
 	gitlab.com/distributed_lab/urlval v3.0.0+incompatible
@@ -20,7 +23,10 @@ require (
 require (
 	github.com/alecthomas/template v0.0.0-20190718012654-fb15b899a751 // indirect
 	github.com/alecthomas/units v0.0.0-20211218093645-b94a6e3cc137 // indirect
+	github.com/btcsuite/btcd/btcec/v2 v2.3.0 // indirect
 	github.com/certifi/gocertifi v0.0.0-20210507211836-431795d63e8d // indirect
+	github.com/decred/dcrd/dcrec/secp256k1/v4 v4.1.0 // indirect
+	github.com/ethereum/go-ethereum v1.10.26 // indirect
 	github.com/fsnotify/fsnotify v1.6.0 // indirect
 	github.com/getsentry/raven-go v0.2.0 // indirect
 	github.com/getsentry/sentry-go v0.14.0 // indirect
@@ -44,6 +50,7 @@ require (
 	gitlab.com/distributed_lab/figure v2.1.2+incompatible // indirect
 	gitlab.com/distributed_lab/lorem v0.2.1 // indirect
 	gitlab.com/distributed_lab/running v1.6.0 // indirect
+	golang.org/x/crypto v0.1.0 // indirect
 	golang.org/x/sys v0.1.0 // indirect
 	golang.org/x/text v0.4.0 // indirect
 	gopkg.in/ini.v1 v1.67.0 // indirect

@@ -6,3 +6,5 @@ info:
 servers:
   - url: 'https://warehouse-service.com/'
     description: Warehouse Service
+security:
+  - bearerAuth: []
